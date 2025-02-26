@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Veterinaria - PetShower</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: repeating-linear-gradient(
+                45deg,
+                #f7f7f7da,
+                #f7f7f7 10px,
+                #e0e0e0 10px,
+                #e0e0e0 20px
+            );
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: black;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .table {
+            background-color: #ffffff;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .modal-header .btn-close {
+            margin-top: -5px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+        }
+
+        #barraBusqueda {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">PetShower</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalAgregarExpediente">Agregar Expediente</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Lista de Expedientes</h2>
+
+        <!-- Barra de búsqueda -->
+        <div class="mb-4">
+            <input type="text" id="barraBusqueda" class="form-control" placeholder="Buscar por nombre de mascota" onkeyup="filtrarExpedientes()">
+        </div>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre de la Mascota</th>
+                    <th>Especie</th>
+                    <th>Dueño</th>
+                    <th>Citas</th>
+                    <th>Imagen</th>
+                    <th>PDF</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaExpedientes">
+                <!-- Los datos se llenarán dinámicamente desde localStorage -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para agregar o editar expediente -->
+    <div class="modal fade" id="modalAgregarExpediente" tabindex="-1" aria-labelledby="modalAgregarExpedienteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarExpedienteLabel">Agregar Nuevo Expediente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAgregarExpediente">
+                        <div class="mb-3">
+                            <label for="nombre_mascota" class="form-label">Nombre de la Mascota</label>
+                            <input type="text" class="form-control" id="nombre_mascota" name="nombre_mascota" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="especie" class="form-label">Especie</label>
+                            <input type="text" class="form-control" id="especie" name="especie" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre_dueño" class="form-label">Nombre del Dueño</label>
+                            <input type="text" class="form-control" id="nombre_dueño" name="nombre_dueño" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero_citas" class="form-label">Número de Citas</label>
+                            <input type="number" class="form-control" id="numero_citas" name="numero_citas" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen_mascota" class="form-label">Imagen de la Mascota</label>
+                            <input type="file" class="form-control" id="imagen_mascota" name="imagen_mascota" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pdf_mascota" class="form-label">Archivo PDF (Historia Clínica)</label>
+                            <input type="file" class="form-control" id="pdf_mascota" name="pdf_mascota" accept="application/pdf">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="guardarExpediente()">Guardar Expediente</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para visualizar PDF -->
+    <div class="modal fade" id="modalVerPdf" tabindex="-1" aria-labelledby="modalVerPdfLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalVerPdfLabel">Visualizar PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-4">
+        <p>&copy; 2024 PetShower. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let expedienteSeleccionado = null;
+
+        // Cargar datos desde localStorage
+        function cargarExpedientes() {
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+            const tabla = document.getElementById('tablaExpedientes');
+            tabla.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            expedientes.forEach((expediente, index) => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${expediente.nombre}</td>
+                    <td>${expediente.especie}</td>
+                    <td>${expediente.dueño}</td>
+                    <td>${expediente.citas}</td>
+                    <td><img src="${expediente.imagen}" alt="Imagen de ${expediente.nombre}" width="50"></td>
+                    <td><button class="btn btn-info" onclick="verPdf(${index})">Ver PDF</button></td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editarExpediente(${index})">Editar</button>
+                        <button class="btn btn-danger" onclick="eliminarExpediente(${index})">Eliminar</button>
+                    </td>
+                `;
+                tabla.appendChild(fila);
+            });
+        }
+
+        // Agregar o editar expediente
+        function guardarExpediente() {
+            const nombre = document.getElementById("nombre_mascota").value;
+            const especie = document.getElementById("especie").value;
+            const dueño = document.getElementById("nombre_dueño").value;
+            const citas = document.getElementById("numero_citas").value;
+            const imagen = URL.createObjectURL(document.getElementById("imagen_mascota").files[0]);
+            const pdf = document.getElementById("pdf_mascota").files[0] ? URL.createObjectURL(document.getElementById("pdf_mascota").files[0]) : null;
+
+            if (!nombre || !especie || !dueño || !citas || !imagen) {
+                alert("Por favor, llena todos los campos.");
+                return;
+            }
+
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+
+            if (expedienteSeleccionado !== null) {
+                // Si hay un expediente seleccionado, actualizarlo
+                expedientes[expedienteSeleccionado] = { nombre, especie, dueño, citas, imagen, pdf };
+                expedienteSeleccionado = null;  // Restablecer el índice
+            } else {
+                // Si no, agregar un nuevo expediente
+                expedientes.push({ nombre, especie, dueño, citas, imagen, pdf });
+            }
+
+            localStorage.setItem('expedientes', JSON.stringify(expedientes));
+
+            document.getElementById("formAgregarExpediente").reset();
+            cargarExpedientes();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalAgregarExpediente'));
+            modal.hide();
+        }
+
+        // Editar expediente
+        function editarExpediente(index) {
+            expedienteSeleccionado = index;
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+            const expediente = expedientes[index];
+
+            document.getElementById("nombre_mascota").value = expediente.nombre;
+            document.getElementById("especie").value = expediente.especie;
+            document.getElementById("nombre_dueño").value = expediente.dueño;
+            document.getElementById("numero_citas").value = expediente.citas;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalAgregarExpediente'));
+            modal.show();
+        }
+
+        // Ver PDF en modal
+        function verPdf(index) {
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+            const expediente = expedientes[index];
+            if (expediente.pdf) {
+                document.getElementById('pdfViewer').src = expediente.pdf;
+                const modal = new bootstrap.Modal(document.getElementById('modalVerPdf'));
+                modal.show();
+            } else {
+                alert("No hay PDF disponible.");
+            }
+        }
+
+        // Eliminar expediente
+        function eliminarExpediente(index) {
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+            expedientes.splice(index, 1);
+            localStorage.setItem('expedientes', JSON.stringify(expedientes));
+            cargarExpedientes();
+        }
+
+        // Función para filtrar expedientes
+        function filtrarExpedientes() {
+            const filtro = document.getElementById('barraBusqueda').value.toLowerCase();
+            const expedientes = JSON.parse(localStorage.getItem('expedientes')) || [];
+            const tabla = document.getElementById('tablaExpedientes');
+            tabla.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+            expedientes.forEach((expediente, index) => {
+                if (expediente.nombre.toLowerCase().includes(filtro)) {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${expediente.nombre}</td>
+                        <td>${expediente.especie}</td>
+                        <td>${expediente.dueño}</td>
+                        <td>${expediente.citas}</td>
+                        <td><img src="${expediente.imagen}" alt="Imagen de ${expediente.nombre}" width="50"></td>
+                        <td><button class="btn btn-info" onclick="verPdf(${index})">Ver PDF</button></td>
+                        <td>
+                            <button class="btn btn-warning" onclick="editarExpediente(${index})">Editar</button>
+                            <button class="btn btn-danger" onclick="eliminarExpediente(${index})">Eliminar</button>
+                        </td>
+                    `;
+                    tabla.appendChild(fila);
+                }
+            });
+        }
+
+        // Cargar expedientes al inicio
+        window.onload = cargarExpedientes;
+    </script>
+</body>
+</html>

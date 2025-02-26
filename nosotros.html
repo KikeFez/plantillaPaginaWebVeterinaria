@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - PetShower</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: repeating-linear-gradient(
+                45deg,
+                #f7f7f7da,
+                #f7f7f7 10px,
+                #e0e0e0 10px,
+                #e0e0e0 20px
+            );
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #007bff !important;
+        }
+
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .card-body {
+            text-align: justify;
+            color: #333;
+            font-size: 20px;
+        }
+
+        /* Estilos para la imagen y el texto dentro de la tarjeta */
+        .card-body .about-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-body .image-container {
+            flex-shrink: 0; /* Para evitar que la imagen se redimensione */
+            margin-right: 30px; /* Más espacio entre la imagen y el texto */
+        }
+
+        .card-body .image-container img {
+            width: 250px; /* Aumenta el ancho de la imagen */
+            height: 500px; /* Aumenta la altura de la imagen */
+            object-fit: cover; /* Mantiene las proporciones de la imagen sin deformarla */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body .text-container {
+            max-width: 650px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: black;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Aumento del ancho del cuadro blanco */
+        .container .row .col-md-10 {
+            max-width: 90%; /* Aumento del ancho del cuadro blanco al 90% */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">PetShower</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="ver_expedientes.html">Agregar Expediente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Contacto.html">Contactos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="nosotros.html">Nosotros</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Cuadro de Nosotros con ancho aumentado -->
+            <div class="col-md-10 offset-md-1">
+                <div class="card">
+                    <h3 class="card-title">¿Quiénes Somos?</h3>
+                    <div class="card-body">
+                        <div class="about-section">
+                            <div class="image-container">
+                                <img src="https://lh5.googleusercontent.com/p/AF1QipOX0PIjeElzGZ67hrlbRdND0VQOuul4Ly9LDa0q=w224-h485-k-no" alt="Imagen del equipo de PetShower">
+                            </div>
+                            <div class="text-container">
+                                <p>En **PetShower** nos especializamos en ofrecer servicios veterinarios de calidad para el bienestar de tus mascotas. Nuestro objetivo es proporcionar atención profesional, cálida y confiable para que tu compañero peludo reciba el mejor cuidado posible.</p>
+                                <p>Contamos con un equipo de veterinarios experimentados que brindan atención médica, tratamientos y procedimientos para asegurar que tu mascota tenga una vida saludable y feliz.</p>
+                                <p>Además, nos enfocamos en la digitalización de los expedientes veterinarios, lo que nos permite llevar un seguimiento detallado y actualizado de cada paciente. Esta tecnología mejora la eficiencia y facilita la comunicación entre los dueños y nuestro equipo.</p>
+                                <p>**PetShower** es más que una clínica veterinaria, somos una familia que cuida y quiere a tus mascotas como propias.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-4">
+        <p>&copy; 2024 PetShower. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
